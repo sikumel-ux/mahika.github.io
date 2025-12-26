@@ -59,13 +59,13 @@ tr:hover{background:#f0f7ff}
 <table>
 <thead>
 <tr>
-  <th>No</th>
+  
   <th>Nama</th>
   <th>No HP</th>
   <th>Armada</th>
   <th>Jam</th>
   <th>Tujuan</th>
-  <th>No Kursi</th>
+  
 </tr>
 </thead>
 <tbody id="tbody"></tbody>
@@ -98,13 +98,13 @@ function render(data){
   .forEach((r,i)=>{
     tbody.innerHTML += `
       <tr>
-        <td>${i+1}</td>
+        
         <td>${r.nama}</td>
         <td>${r.no_hp}</td>
         <td>${r.armada}</td>
         <td>${r.jam}</td>
         <td>${r.tujuan}</td>
-        <td>${r.no_kursi}</td>
+        
       </tr>
     `;
   });
