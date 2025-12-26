@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etiket Mahika Trans</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0066AE">
+<link rel="icon" href="m.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="eti.css">
+</head>
+
+<body>
+
+<div class="etiket-container">
+    <div class="etiket-header">
+        <div class="header">
+            <img src="logo.png" alt="Mahika Trans" class="logo">
+        </div>
+        <p class="kode-booking" id="kodeBooking">-</p>
+    </div>
+
+    <div class="info-grid">
+        <div class="kolom">
+            <p><i class="fas fa-user"></i> <span id="nama"></span></p>
+            <p><i class="fas fa-phone"></i> <span id="no_hp"></span></p>
+            <p><i class="fas fa-bus"></i> <span id="armada"></span></p>
+            <p><i class="fas fa-map-marker-alt"></i> <span id="tujuan"></span></p>
+        </div>
+
+        <div class="kolom">
+            <p><i class="fas fa-chair"></i> <span id="no_kursi"></span></p>
+            <p><i class="fas fa-calendar-alt"></i> <span id="tgl"></span></p>
+            <p><i class="fas fa-clock"></i> <span id="jam"></span> WIB</p>
+            <p><i class="fa-solid fa-rupiah-sign"></i> <span id="harga"></span></p>
+        </div>
+    </div>
+
+    <div class="tear-line"></div>
+
+    <div class="barcode">
+        <img id="barcodeImg" alt="Barcode">
+        <p class="thanks">Terimakasih atas kepercayaan Anda menggunakan jasa layanan kami.</p>
+    </div>
+
+    <div class="keterangan">
+        <p><strong>Perhatian:</strong></p>
+        <p>1. Tiket yang sudah dipesan tidak dapat dibatalkan</p>
+        <p>2. Harap datang maksimal 30 menit sebelum jadwal pemberangkatan</p>
+        <p>3. Anak usia 3 tahun atau tinggi badan 90cm wajib membeli tiket</p>
+    </div>
+
+    <div class="nav-bottom">
+        <a href="input.html"><i class="fas fa-ticket"></i></a>
+        <a href="#"><i class="fas fa-list"></i></a>
+        <a href="#"><i class="fas fa-chart-bar"></i></a>
+        <a href="#" onclick="window.print()"><i class="fas fa-print"></i></a>
+    </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+
+/* format dd-mm-yyyy */
+function formatTanggal(tgl){
+    const d = new Date(tgl);
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const yyyy = d.getFullYear();
+    return `${dd}-${mm}-${yyyy}`;
+}
+
+/* generate kode booking */
+function generateKode(){
+    return "MHK" + Date.now().toString().slice(-6);
+}
+
+fetch(API_URL + "?last=1")
+.then(res => res.json())
+.then(data => {
+
+    const kode = generateKode();
+    document.getElementById("kodeBooking").innerText = kode;
+
+    document.getElementById("nama").innerText = data.nama;
+    document.getElementById("no_hp").innerText = data.no_hp;
+    document.getElementById("armada").innerText = data.armada;
+    document.getElementById("tujuan").innerText = data.tujuan;
+    document.getElementById("no_kursi").innerText = data.no_kursi;
+
+    document.getElementById("tgl").innerText = formatTanggal(data.tanggal);
+
+    // JAM AMAN (TIDAK 1899)
+    document.getElementById("jam").innerText =
+        typeof data.jam === "string"
+        ? data.jam
+        : new Date(data.jam).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+
+    document.getElementById("harga").innerText =
+        Number(data.harga).toLocaleString("id-ID");
+
+    document.getElementById("barcodeImg").src =
+        "https://barcode.tec-it.com/barcode.ashx?data=" +
+        encodeURIComponent(kode) +
+        "&code=Code128";
+
+})
+.catch(err=>{
+    document.body.innerHTML = "<h3 style='text-align:center'>Gagal memuat etiket</h3>";
+    console.error(err);
+});
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+</body>
+  </html>
