@@ -132,7 +132,7 @@ button:hover {
 document.getElementById("bookingForm").addEventListener("submit", function(e){
     e.preventDefault();
 
-    const kodeBooking = "MHK" + Date.now().toString().slice(-6);
+    const kodeBooking = "MT-" + Date.now().toString().slice(-6);
 
     const data = {
         kode_booking: kodeBooking,
