@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setoran </title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+body{
+  font-family:Poppins,sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:15px;
+}
+h2{margin-bottom:10px}
+
+.card{
+  background:#fff;
+  border-radius:12px;
+  padding:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  margin-bottom:20px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+label{
+  font-size:13px;
+  font-weight:600;
+}
+input{
+  width:100%;
+  padding:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  margin-top:5px;
+}
+
+button{
+  margin-top:15px;
+  padding:10px;
+  width:100%;
+  border:none;
+  border-radius:8px;
+  background:#0066AE;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.filter{
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+th{
+  background:#0066AE;
+  color:#fff;
+}
+tr:hover{background:#f0f7ff}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<h2>Setoran Armada</h2>
+
+<div class="card">
+  <div class="form-grid">
+    <div>
+      <label>Tanggal</label>
+      <input type="date" id="tgl">
+    </div>
+
+    <div>
+      <label>Armada</label>
+      <input type="text" id="armada" placeholder="Contoh: Bus A">
+    </div>
+
+    <div>
+      <label>Nama</label>
+      <input type="text" id="nama" placeholder="Nama petugas / sopir">
+    </div>
+
+    <div>
+      <label>Jumlah Penumpang</label>
+      <input type="number" id="jumlah" placeholder="0">
+    </div>
+
+    <div>
+      <label>Nominal (Rp)</label>
+      <input type="number" id="nominal" placeholder="0">
+    </div>
+  </div>
+
+  <button onclick="simpan()">Simpan Setoran</button>
+</div>
+
+<div class="card">
+  <div class="filter">
+    <input type="date" id="filterTanggal">
+    <input type="text" id="filterArmada" placeholder="Filter armada">
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Armada</th>
+        <th>Nama</th>
+        <th>Penumpang</th>
+        <th>Nominal</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script>
+let dataSetoran = [];
+
+function simpan(){
+  const item = {
+    tgl: tgl.value,
+    armada: armada.value,
+    nama: nama.value,
+    jumlah: jumlah.value,
+    nominal: nominal.value
+  };
+
+  if(!item.tgl || !item.armada || !item.nama){
+    alert("Lengkapi data dulu");
+    return;
+  }
+
+  dataSetoran.push(item);
+  render();
+
+  document.querySelectorAll("input").forEach(i=>i.value="");
+}
+
+function render(){
+  const ft = filterTanggal.value;
+  const fa = filterArmada.value.toLowerCase();
+
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+
+  dataSetoran
+    .filter(r =>
+      (!ft || r.tgl===ft) &&
+      (!fa || r.armada.toLowerCase().includes(fa))
+    )
+    .forEach((r,i)=>{
+      tbody.innerHTML += `
+        <tr>
+          <td>${i+1}</td>
+          <td>${formatTanggal(r.tgl)}</td>
+          <td>${r.armada}</td>
+          <td>${r.nama}</td>
+          <td>${r.jumlah}</td>
+          <td>Rp ${Number(r.nominal).toLocaleString("id-ID")}</td>
+        </tr>
+      `;
+    });
+}
+
+function formatTanggal(t){
+  if(!t) return "";
+  const d = new Date(t);
+  return d.toLocaleDateString("id-ID");
+}
+
+filterTanggal.addEventListener("change", render);
+filterArmada.addEventListener("input", render);
+</script>
+
+</body>
+</html>
