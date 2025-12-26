@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Tiket Mahika Trans</title>
+
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.etiket {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.2);
+}
+
+h3 {
+    text-align: center;
+    color: #0066AE;
+}
+
+p {
+    font-size: 14px;
+    margin: 6px 0;
+}
+
+strong {
+    color: #333;
+}
+</style>
+</head>
+
+<body>
+
+<div class="etiket">
+<h3>E-Tiket Mahika Trans</h3>
+
+<p><strong>Tanggal:</strong> <span id="tanggal"></span></p>
+<p><strong>Nama:</strong> <span id="nama"></span></p>
+<p><strong>No HP:</strong> <span id="hp"></span></p>
+<p><strong>Armada:</strong> <span id="armada"></span></p>
+<p><strong>Jam:</strong> <span id="jam"></span></p>
+<p><strong>Tujuan:</strong> <span id="tujuan"></span></p>
+<p><strong>No Kursi:</strong> <span id="kursi"></span></p>
+<p><strong>Harga:</strong> <span id="harga"></span></p>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+
+fetch(API_URL + "?last=1")
+  .then(res => res.json())
+  .then(data => {
+      tanggal.innerText = data.tanggal;
+      nama.innerText = data.nama;
+      hp.innerText = data.no_hp;
+      armada.innerText = data.armada;
+      jam.innerText = data.jam;
+      tujuan.innerText = data.tujuan;
+      kursi.innerText = data.no_kursi;
+      harga.innerText = "Rp " + Number(data.harga).toLocaleString("id-ID");
+  });
+</script>
+
+</body>
+</html>
