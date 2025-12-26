@@ -1,203 +1,234 @@
-/* Font dan Latar Belakang */
+/* =========================
+   GLOBAL
+========================= */
 body {
-  font-family: 'Poppins', sans-serif;
-    background: url('https://www.transparenttextures.com/patterns/inspiration-geometry.png'), #f4f4f4;
-      margin: 0;
-        padding: 0;
-          display: flex;
-            justify-content: center;
-              align-items: center;
-                height: 100vh;
-                }
-
-                /* Container utama */
-                .etiket-container {
-                  width: 100%;
-                    max-width: 400px;
-                      height: 100vh;
-                        background: #fff;
-                          padding: 20px;
-                            border-radius: 10px;
-                              display: flex;
-                                flex-direction: column;
-                                }
-
-                                /* Header */
-                                .header {
-                                  padding: 10px 20px;
-                                    display: flex;
-                                      align-items: center;
-                                        justify-content: center;
-                                          height: 40px;
-                                          }
-
-                                          .header img {
-                                            width: 100%;
-                                              height: auto;
-                                              }
-.etiket-header {
-      background: linear-gradient(135deg, #0066AE, #005b99);
-        color: #fff;
-          padding: 20px;
-            text-align: center;
-              border-radius: 0 0 20px 20px;
-                                                                                                                                                                                                                            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-                                                                                                                                                                                                                            
-                position: relative;
-                }
-
-                .kode-booking {
-                  position: relative;
-                    top: 40px; /* ngambang keluar dari header */
-                      background: #fff;
-                        color: #004a80;
-                          font-weight: bold;
-                            padding: 12px 20px;
-                                                                                  
-                                                      border-radius: 0 0 10px 10px;
-
-                                width: 80%;
-                                  margin: auto;
-                                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                                      font-size: 18px;
-                                        z-index: 10;
-                                        }
+    font-family: 'Poppins', sans-serif;
+    background: 
+        url('https://www.transparenttextures.com/patterns/inspiration-geometry.png'),
+        #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
-                  /*                            .etiket-header {
-                                                background: linear-gradient(135deg, #0066AE, #004a80);
-                                                  color: #fff;
-                                                    padding: 10px;
-                                                      border-radius: 10px 10px 0 0;
-                                                        text-align: center;
-                                                          position: relative;
-                                                          }
 
-    */                                                      .logo {
-                                                            width: 80%;
-                                                              height: auto;
-                                                              }
+/* =========================
+   CONTAINER UTAMA
+========================= */
+.etiket-container {
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
 
-                                                              /* Tombol Navigasi Atas */
-                                                              .nav-top {
-                                                                position: absolute;
-                                                                  left: 10px;
-                                                                    top: 10px;
-                                                                    }
+/* =========================
+   HEADER
+========================= */
+.etiket-header {
+    background: linear-gradient(135deg, #0066AE, #005b99);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
 
-                                                                    .nav-top i {
-                                                                      color: #fff;
-                                                                        font-size: 18px;
-                                                                        }
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
 
-                                                                        /* Grid Informasi */
-                                                                        .info-grid {
-                                                                          display: flex;
-                                                                            justify-content: space-between;
-                                                                              text-align: left;
-                                                                                margin-top: 40px;
-                                                                                  flex-grow: 1;
-                                                                                  }
+.header img,
+.logo {
+    width: 80%;
+    height: auto;
+}
 
-                                                                                  .kolom {
-                                                                                    width: 48%;
-                                                                                    }
+/* =========================
+   KODE BOOKING
+========================= */
+.kode-booking {
+    position: relative;
+    top: 40px;
+    margin: auto;
+    width: 80%;
+    padding: 12px 20px;
+    background: #fff;
+    color: #004a80;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 10;
+}
 
-                                                                                    .kolom p {
-                                                                                      font-size: 14px;
-                                                                                        padding: 8px;
-                                                                                          background: #fff;
-                                                                                            border-radius: 5px;
-                                                                                              margin-bottom: 5px;
-                                                                                                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-                                                                                                  display: flex;
-                                                                                                    align-items: center;
-                                                                                                    }
+/* =========================
+   NAV TOP
+========================= */
+.nav-top {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
 
-                                                                                                    .kolom i {
-                                                                                                      margin-right: 8px;
-                                                                                                      }
+.nav-top i {
+    color: #fff;
+    font-size: 18px;
+}
 
-                                                                                                      /* Kode Booking */
-                                                                                                      .kode-booking {
-                                                                                                        color: #0066AE;
-                                                                                                          font-size: 16px;
-                                                                                                            font-weight: bold;
-                                                                                                              background: #ffd700;
-                                                                                                                padding: 10px;
-                                                                                                                         border-radius: 0 0 10px 10px;
-                                                                                                                                                                                                /*    border-radius: 5px;*/
-                                                                                                                    text-align: center;
-                                                                                                                    }
+/* =========================
+   INFO GRID
+========================= */
+.info-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    flex-grow: 1;
+}
 
-                                                                                                                    /* Keterangan */
-                                                                                                                    .keterangan {
-                                                                                                                      font-size: 12px;
-                                                                                                                        background: #eee;
-                                                                                                                          padding: 10px;
-                                                                                                                            border-radius: 5px;
-                                                                                                                              margin-top: 5px;
-                                                                                                                              }
+.kolom {
+    width: 48%;
+}
 
-                                                                                                                              /* Footer */
-                                                                                                                              .etiket-footer {
-                                                                                                                                padding: 10px;
-                                                                                                                                  position: relative;
-                                                                                                                                    overflow: hidden;
-                                                                                                                                      background: linear-gradient(135deg, #0066AE, #004a80);
-                                                                                                                                      }
+.kolom p {
+    font-size: 14px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
 
-                                                                                                                                      .etiket-footer::before {
-                                                                                                                                        content: "";
-                                                                                                                                          position: absolute;
-                                                                                                                                            width: 100%;
-                                                                                                                                              height: 30px;
-                                                                                                                                                background: url('https://upload.wikimedia.org/wikipedia/commons/6/6a/Sine_wave.svg');
-                                                                                                                                                  background-size: cover;
-                                                                                                                                                    bottom: 100%;
-                                                                                                                                                      left: 0;
-                                                                                                                                                      }
+.kolom i {
+    margin-right: 8px;
+}
 
-                                                                                                                                                      /* Navigasi Bawah */
-                                                                                                                                                      .nav-bottom {
-                                                                                                                                                        gap: 10px;
-                                                                                                                                                          display: flex;
-                                                                                                                                                            justify-content: space-between;
-                                                                                                                                                              padding: 10px;
-                                                                                                                                                              }
+/* =========================
+   KETERANGAN
+========================= */
+.keterangan {
+    font-size: 12px;
+    background: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
 
-                                                                                                                                                              .nav-bottom a {
-                                                                                                                                                                background: linear-gradient(135deg, #0066AE, #004a80);
-                                                                                                                                                                  color: white;
-                                                                                                                                                                    padding: 10px;
-                                                                                                                                                                      border-radius: 5px;
-                                                                                                                                                                        font-size: 18px;
-                                                                                                                                                                          text-align: center;
-                                                                                                                                                                            width: 22%;
-                                                                                                                                                                              display: flex;
-                                                                                                                                                                                justify-content: center;
-                                                                                                                                                                                  transition: transform 0.2s ease-in-out;
-                                                                                                                                                                                  }
+/* =========================
+   TEAR LINE
+========================= */
+.tear-line {
+    width: 100%;
+    height: 10px;
+    margin: 5px 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 8px,
+        #ccc 8px,
+        #ccc 10px
+    );
+}
 
-                                                                                                                                                                                  .nav-bottom a:hover {
-                                                                                                                                                                                    background: #005b99;
-                                                                                                                                                                                      transform: scale(1.1);
-                                                                                                                                                                                      }
+/* =========================
+   BARCODE
+========================= */
+.barcode-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-                                                                                                                                                                                      /* Efek Tear Line (Garis Sobek) */
-                                                                                                                                                                                      .tear-line {
-                                                                                                                                                                                        width: 100%;
-                                                                                                                                                                                          height: 10px;
-                                                                                                                                                                                            background: repeating-linear-gradient(90deg, transparent, transparent 8px, #ccc 8px, #ccc 10px);
-                                                                                                                                                                                              margin: 5px 0;
-                                                                                                                                                                                              }
+.barcode {
+    width: 95%;
+    text-align: center;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-                                                                                                                                                                                              /* Barcode */
-                                                                                                                                                                                              .barcode-container {
-                                        width: 100%;                                                                                                                                                        display: flex;
-                                                                                                                                                                                                  justify-content: center;
-                                                                                                                                                                                                    align-items: center;
-                                                                                                                                                                                                    }
+.barcode img {
+    width: 50%;
+    max-width: 60%;
+    height: auto;
+}
 
-                                                                                                                                                                                                    .barcode {
-                                                                             width: 95%;                                                                                                                    text-align: center;
-                                                                                                                                    
+.thanks {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #000;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.etiket-footer {
+    position: relative;
+    padding: 10px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0066AE, #004a80);
+}
+
+.etiket-footer::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    bottom: 100%;
+    left: 0;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/6/6a/Sine_wave.svg');
+    background-size: cover;
+}
+
+/* =========================
+   NAV BOTTOM
+========================= */
+.nav-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+}
+
+.nav-bottom a {
+    width: 22%;
+    background: linear-gradient(135deg, #0066AE, #004a80);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.nav-bottom a:hover {
+    background: #005b99;
+    transform: scale(1.1);
+}
+
+/* =========================
+   KONTEN
+========================= */
+.konten {
+    padding-top: 20px;
+    padding-bottom: 80px;
+  }
