@@ -76,7 +76,7 @@ function formatTanggal(tgl){
 
 /* generate kode booking */
 function generateKode(){
-    return "MHK" + Date.now().toString().slice(-6);
+    return "MT-" + Date.now().toString().slice(-6);
 }
 
 fetch(API_URL + "?last=1")
