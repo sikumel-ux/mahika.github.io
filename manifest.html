@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifest Penumpang</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+body{
+  font-family:Poppins,sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:15px;
+}
+h2{margin-bottom:10px}
+.filter{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+input{
+  padding:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+th,td{
+  padding:10px;
+  font-size:13px;
+  border-bottom:1px solid #eee;
+}
+th{
+  background:#0066AE;
+  color:#fff;
+}
+tr:hover{background:#f0f7ff}
+</style>
+</head>
+
+<body>
+
+<h2>Manifest Penumpang</h2>
+
+<div class="filter">
+  <input type="date" id="filterTanggal">
+  <input type="text" id="search" placeholder="Cari nama / tujuan">
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>No</th>
+  <th>Nama</th>
+  <th>No HP</th>
+  <th>Armada</th>
+  <th>Jam</th>
+  <th>Tujuan</th>
+  <th>Kursi</th>
+  <th>Harga</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+
+let manifestData = [];
+
+function loadData(tanggal=""){
+  fetch(API + (tanggal ? "?tanggal="+tanggal : ""))
+    .then(r=>r.json())
+    .then(d=>{
+      manifestData = d;
+      render(d);
+    });
+}
+
+function render(data){
+  const search = document.getElementById("search").value.toLowerCase();
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+
+  data
+  .filter(r =>
+    r.nama.toLowerCase().includes(search) ||
+    r.tujuan.toLowerCase().includes(search)
+  )
+  .forEach((r,i)=>{
+    tbody.innerHTML += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${r.nama}</td>
+        <td>${r.no_hp}</td>
+        <td>${r.armada}</td>
+        <td>${r.jam}</td>
+        <td>${r.tujuan}</td>
+        <td>${r.no_kursi}</td>
+        <td>Rp ${Number(r.harga).toLocaleString("id-ID")}</td>
+      </tr>
+    `;
+  });
+}
+
+document.getElementById("filterTanggal").addEventListener("change", e=>{
+  loadData(e.target.value);
+});
+
+document.getElementById("search").addEventListener("input", ()=>{
+  render(manifestData);
+});
+
+loadData();
+</script>
+
+</body>
+</html>
