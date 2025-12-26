@@ -160,6 +160,12 @@ document.getElementById("bookingForm").addEventListener("submit", function(e){
     window.location.href = "etiket.html?kode=" + kodeBooking;
 });
 </script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js")
+    .then(() => console.log("Service Worker registered"))
+    .catch(err => console.log("SW failed", err));
+}
+</script>
 </body>
   </html>
