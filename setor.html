@@ -172,7 +172,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF
 let data = [];
 
 function loadData(){
-  fetch(API_URL + "?setoran=1")
+  fetch(API_URL + "?action=getSetoran")
     .then(res => res.json())
     .then(res => {
       data = res;
