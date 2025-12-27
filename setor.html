@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setoran Armada - Mahika Trans</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  margin:0;
+  background:#f4f6f8;
+  padding:16px;
+}
+
+/* ================= HEADER CARD ================= */
+.header-card{
+  background: linear-gradient(135deg, #0066AE, #00508f);
+  padding:16px;
+  border-radius:18px;
+  box-shadow:0 10px 28px rgba(0,0,0,.18);
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.header-card::after{
+  content:"";
+  position:absolute;
+  width:140px;
+  height:140px;
+  background:#FFD700;
+  border-radius:50%;
+  top:-50px;
+  right:-50px;
+  opacity:.25;
+}
+
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  position:relative;
+  z-index:2;
+}
+
+.header-logo{
+  width:50px;
+  background:#fff;
+  padding:6px;
+  border-radius:12px;
+}
+
+.header-text h1{
+  margin:0;
+  font-size:18px;
+  font-weight:600;
+  color:#fff;
+}
+
+.header-text p{
+  margin:0;
+  font-size:12px;
+  color:#ffeb99;
+}
+
+/* ================= CARD ================= */
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 6px 20px rgba(0,0,0,.08);
+  margin-bottom:20px;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+  overflow:hidden;
+}
+
+/* ================= FORM ================= */
+.form-wrapper{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+@media (min-width:480px){
+  .form-wrapper{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+}
+
+label{
+  font-size:13px;
+  margin-bottom:6px;
+  font-weight:600;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:14px;
+}
+
+button{
+  grid-column:1 / -1;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#0066AE;
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#004f8a;
+}
+
+/* ================= FILTER ================= */
+.filter-wrapper{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+@media (min-width:480px){
+  .filter-wrapper{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+/* ================= TABLE ================= */
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  min-width:520px;
+}
+
+thead{
+  background:#0066AE;
+  color:#fff;
+}
+
+th,td{
+  padding:8px;
+  border-bottom:1px solid #ddd;
+  text-align:center;
+}
+
+tbody tr:hover{
+  background:#f1f7ff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="header-card">
+  <div class="header-inner">
+    <img src="logo.png" class="header-logo">
+    <div class="header-text">
+      <h1>Setoran Armada</h1>
+      <p>Input & Rekap Setoran Harian</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FORM SETORAN ================= -->
+<div class="card">
+  <form id="setoranForm" class="form-wrapper">
+
+    <div class="form-group">
+      <label>Tanggal</label>
+      <input type="date" id="tanggal" required>
+    </div>
+
+    <div class="form-group">
+      <label>Armada</label>
+      <input type="text" id="armada" placeholder="Bus A" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nama</label>
+      <input type="text" id="nama" placeholder="Nama petugas" required>
+    </div>
+
+    <div class="form-group">
+      <label>Jumlah Penumpang</label>
+      <input type="number" id="jumlah" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nominal (Rp)</label>
+      <input type="number" id="nominal" required>
+    </div>
+
+    <button type="submit">Simpan Setoran</button>
+  </form>
+</div>
+
+<!-- ================= DATA SETORAN ================= -->
+<div class="card">
+  <div class="filter-wrapper">
+    <input type="date" id="filterTanggal">
+    <input type="text" id="filterArmada" placeholder="Filter Armada">
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Armada</th>
+          <th>Nama</th>
+          <th>Penumpang</th>
+          <th>Nominal</th>
+        </tr>
+      </thead>
+      <tbody id="dataSetoran"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const API_URL = "ISI_URL_WEB_APP_APPS_SCRIPT_KAMU";
+
+let data = [];
+
+document.getElementById("setoranForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const payload = {
+    tanggal: tanggal.value,
+    armada: armada.value,
+    nama: nama.value,
+    jumlah: jumlah.value,
+    nominal: nominal.value
+  };
+
+  fetch(API_URL + "?action=setoran",{
+    method:"POST",
+    body:JSON.stringify(payload)
+  });
+
+  data.push(payload);
+  this.reset();
+  render();
+});
+
+function render(){
+  const tbody = document.getElementById("dataSetoran");
+  tbody.innerHTML = "";
+
+  const ft = filterTanggal.value;
+  const fa = filterArmada.value.toLowerCase();
+
+  let no = 1;
+  data.filter(d=>{
+    return (!ft || d.tanggal === ft) &&
+           (!fa || d.armada.toLowerCase().includes(fa));
+  }).forEach(d=>{
+    tbody.innerHTML += `
+      <tr>
+        <td>${no++}</td>
+        <td>${new Date(d.tanggal).toLocaleDateString("id-ID")}</td>
+        <td>${d.armada}</td>
+        <td>${d.nama}</td>
+        <td>${d.jumlah}</td>
+        <td>${Number(d.nominal).toLocaleString("id-ID")}</td>
+      </tr>`;
+  });
+}
+
+filterTanggal.onchange = render;
+filterArmada.onkeyup = render;
+</script>
+
+</body>
+</html>
