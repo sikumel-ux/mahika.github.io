@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setoran Mahika Trans</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{ box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body{ margin:0; background:#f4f6f8; padding:16px; }
+h4{ text-align:center; margin-bottom:16px; }
+
+/* CARD */
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 6px 20px rgba(0,0,0,.08);
+  margin-bottom:20px;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+  overflow:hidden;
+}
+
+/* FORM */
+.form-wrapper{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+@media (min-width:480px){ .form-wrapper{ grid-template-columns:1fr 1fr; } }
+
+.form-group{ display:flex; flex-direction:column; }
+label{ font-size:10px; margin-bottom:6px; font-weight:600; }
+input{ width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; font-size:10px; }
+
+button{
+  grid-column:1 / -1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#0066AE;
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+button:hover{ background:#004f8a; }
+
+/* FILTER */
+.filter-wrapper{ display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:12px; }
+@media (min-width:480px){ .filter-wrapper{ grid-template-columns:1fr 1fr; } }
+
+/* TABLE */
+.table-wrapper{ overflow-x:auto; }
+table{ width:100%; border-collapse:collapse; font-size:10px; min-width:520px; }
+thead{ background:#0066AE; color:#fff; }
+th,td{ padding:8px; border-bottom:1px solid #ddd; text-align:center; }
+tbody tr:hover{ background:#f1f7ff; }
+</style>
+</head>
+
+<body>
+
+<h4>DATA SETORAN</h4>
+
+<!-- FORM SETORAN -->
+<div class="card">
+  <form id="setoranForm" class="form-wrapper">
+
+    <div class="form-group">
+      <label>Tanggal</label>
+      <input type="date" id="tanggal" required>
+    </div>
+
+    <div class="form-group">
+      <label>Armada</label>
+      <input type="text" id="armada" placeholder="Putra Remaja" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nama</label>
+      <input type="text" id="nama" placeholder="Nama Penumpang" required>
+    </div>
+
+    <div class="form-group">
+      <label>Jumlah</label>
+      <input type="number" id="jumlah" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nominal (Rp)</label>
+      <input type="number" id="nominal" required>
+    </div>
+
+    <button type="submit">Simpan</button>
+  </form>
+</div>
+
+<!-- DATA SETORAN -->
+<div class="card">
+  <div class="filter-wrapper">
+    <input type="date" id="filterTanggal">
+    <input type="text" id="filterArmada" placeholder="Filter Armada">
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Armada</th>
+          <th>Nama</th>
+          <th>Jumlah</th>
+          <th>Nominal</th>
+        </tr>
+      </thead>
+      <tbody id="dataSetoran"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+
+let data = [];
+
+// LOAD DATA DARI SHEET
+async function loadData(){
+  try{
+    const res = await fetch(API_URL + "?action=getSetoran");
+    data = await res.json();
+    render();
+  }catch(err){ console.error("Load error:",err); }
+}
+
+// SIMPAN DATA KE SHEET
+document.getElementById("setoranForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+
+  const payload = {
+    action: "setoran",
+    tanggal: tanggal.value,
+    armada: armada.value,
+    nama: nama.value,
+    jumlah: jumlah.value,
+    nominal: nominal.value
+  };
+
+  try{
+    await fetch(API_URL,{
+      method:"POST",
+      body: JSON.stringify(payload)
+    });
+
+    tanggal.value=""; armada.value=""; nama.value=""; jumlah.value=""; nominal.value="";
+    loadData();
+  }catch(err){ console.error("Post error:",err); }
+});
+
+// RENDER DATA DI TABEL
+function render(){
+  const tbody = document.getElementById("dataSetoran");
+  tbody.innerHTML = "";
+
+  const ft = filterTanggal.value;
+  const fa = filterArmada.value.toLowerCase();
+  let no=1;
+
+  data.filter(d=>{
+    return (!ft || d.tanggal===ft) && (!fa || d.armada.toLowerCase().includes(fa));
+  }).forEach(d=>{
+    tbody.innerHTML += `
+      <tr>
+        <td>${no++}</td>
+        <td>${new Date(d.tanggal).toLocaleDateString("id-ID")}</td>
+        <td>${d.armada}</td>
+        <td>${d.nama}</td>
+        <td>${d.jumlah}</td>
+        <td>${Number(d.nominal).toLocaleString("id-ID")}</td>
+      </tr>`;
+  });
+}
+
+// FILTER EVENT
+filterTanggal.onchange = render;
+filterArmada.onkeyup = render;
+
+loadData();
+</script>
+
+</body>
+</html>
