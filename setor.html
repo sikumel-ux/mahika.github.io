@@ -8,59 +8,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   font-family:Poppins,sans-serif;
   background:#f4f6f8;
   margin:0;
-  padding:20px;
+  padding:16px;
 }
 
+/* ===== CARD ===== */
 .card{
   background:#fff;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 6px 15px rgba(0,0,0,.1);
-  margin-bottom:20px;
+  padding:16px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  margin-bottom:16px;
+  width:100%;
+  overflow:hidden; /* 🔥 PENTING */
 }
 
+/* ===== HEADER ===== */
 .header{
   background:linear-gradient(135deg,#0066AE,#FFD700);
   color:#fff;
-  padding:15px;
-  border-radius:12px;
   text-align:center;
+  font-size:18px;
   font-weight:600;
 }
 
+/* ===== FORM ===== */
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:15px;
+  gap:12px;
 }
 
-input,button{
-  padding:10px;
-  border-radius:8px;
+.form-grid input,
+.form-grid button{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
   border:1px solid #ccc;
   font-family:Poppins;
+  font-size:14px;
 }
 
-button{
+.form-grid button{
+  grid-column:1 / -1; /* 🔥 tombol full lebar */
   background:#0066AE;
   color:#fff;
   border:none;
   cursor:pointer;
 }
 
+/* ===== FILTER ===== */
 .filter{
-  display:flex;
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:10px;
+}
+
+.filter input{
+  width:100%;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+/* ===== TABLE ===== */
+.table-wrapper{
+  width:100%;
+  overflow-x:auto; /* 🔥 table tetap di dalam card */
 }
 
 table{
   width:100%;
   border-collapse:collapse;
+  min-width:600px;
 }
 
 th,td{
@@ -79,42 +107,47 @@ th{
 
 <body>
 
+<!-- HEADER -->
 <div class="card header">
   SETORAN ARMADA
 </div>
 
+<!-- FORM -->
 <div class="card">
-<form id="setoranForm">
-  <div class="form-grid">
-    <input type="date" id="tanggal" required>
-    <input type="text" id="armada" placeholder="Armada" required>
-    <input type="text" id="nama" placeholder="Nama" required>
-    <input type="number" id="jumlah" placeholder="Jumlah Penumpang" required>
-    <input type="number" id="nominal" placeholder="Nominal (Rp)" required>
-    <button type="submit">SIMPAN</button>
-  </div>
-</form>
+  <form id="setoranForm">
+    <div class="form-grid">
+      <input type="date" id="tanggal" required>
+      <input type="text" id="armada" placeholder="Armada" required>
+      <input type="text" id="nama" placeholder="Nama" required>
+      <input type="number" id="jumlah" placeholder="Jumlah Penumpang" required>
+      <input type="number" id="nominal" placeholder="Nominal (Rp)" required>
+      <button type="submit">SIMPAN SETORAN</button>
+    </div>
+  </form>
 </div>
 
+<!-- DATA -->
 <div class="card">
   <div class="filter">
     <input type="date" id="filterTanggal">
     <input type="text" id="filterArmada" placeholder="Filter Armada">
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Tanggal</th>
-        <th>Armada</th>
-        <th>Nama</th>
-        <th>Jumlah</th>
-        <th>Nominal</th>
-      </tr>
-    </thead>
-    <tbody id="dataSetoran"></tbody>
-  </table>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Armada</th>
+          <th>Nama</th>
+          <th>Jumlah</th>
+          <th>Nominal</th>
+        </tr>
+      </thead>
+      <tbody id="dataSetoran"></tbody>
+    </table>
+  </div>
 </div>
 
 <script>
