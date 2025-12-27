@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifes Penumpang</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{ box-sizing:border-box; }
+
+body{
+  font-family:Poppins,sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:16px;
+}
+
+/* ===== HEADER ALA ETIKET ===== */
+.header-card{
+  background:linear-gradient(to bottom,#0066AE 0%,#004a80 75%);
+  color:#fff;
+  padding:22px 16px 28px;
+  border-radius:0 0 22px 22px;
+  text-align:center;
+  font-size:18px;
+  font-weight:600;
+  box-shadow:0 6px 14px rgba(0,0,0,.25);
+  margin-bottom:24px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:#fff;
+  padding:16px;
+  border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  margin-bottom:16px;
+  overflow:hidden;
+}
+
+/* ===== FILTER ===== */
+.filter{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.filter input{
+  width:100%;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:13px;
+}
+
+/* ===== TABLE ===== */
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:6px 6px;
+  font-size:12px;
+  white-space:nowrap;
+  text-align:center;
+}
+
+th{
+  background:#0066AE;
+  color:#fff;
+  font-weight:600;
+}
+
+td{ line-height:1.2; }
+
+td:nth-child(1){ width:36px; }
+td:nth-child(2){ width:80px; }
+td:nth-child(5){ width:60px; }
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header-card">
+  MANIFES PENUMPANG
+</div>
+
+<!-- DATA -->
+<div class="card">
+
+  <div class="filter">
+    <input type="date" id="filterTanggal">
+    <input type="text" id="filterArmada" placeholder="Filter Armada">
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Nama</th>
+          <th>No HP</th>
+          <th>Armada</th>
+          <th>Jam</th>
+          <th>Tujuan</th>
+          <th>No Kursi</th>
+        </tr>
+      </thead>
+      <tbody id="dataManifes"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+
+let data = [];
+
+function loadData(){
+  fetch(API_URL + "?action=getManifes")
+    .then(res => res.json())
+    .then(res => {
+      data = res;
+      render();
+    });
+}
+
+function render(){
+  const tbody = document.getElementById("dataManifes");
+  tbody.innerHTML = "";
+
+  const ft = filterTanggal.value;
+  const fa = filterArmada.value.toLowerCase();
+  let no = 1;
+
+  data.filter(d=>{
+    return (!ft || d.tanggal === ft) &&
+           (!fa || d.armada.toLowerCase().includes(fa));
+  }).forEach(d=>{
+    tbody.innerHTML += `
+      <tr>
+        <td>${no++}</td>
+        <td>${new Date(d.tanggal).toLocaleDateString("id-ID")}</td>
+        <td>${d.nama}</td>
+        <td>${d.no_hp}</td>
+        <td>${d.armada}</td>
+        <td>${d.jam}</td>
+        <td>${d.tujuan}</td>
+        <td>${d.no_kursi}</td>
+      </tr>
+    `;
+  });
+}
+
+filterTanggal.onchange = render;
+filterArmada.onkeyup = render;
+
+loadData();
+</script>
+
+</body>
+</html>
