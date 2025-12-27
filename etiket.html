@@ -100,10 +100,6 @@ fetch(API_URL + "?last=1")
         ? data.jam
         : new Date(data.jam).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
 
-
-    
-    
-    
     document.getElementById("harga").innerText =
         Number(data.harga).toLocaleString("id-ID");
 
