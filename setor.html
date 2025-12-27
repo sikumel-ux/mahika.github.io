@@ -19,24 +19,45 @@ body{
   padding:16px;
 }
 
+/* ===== HEADER ALA ETIKET ===== */
+.header-card{
+  background: linear-gradient(to bottom, #0066AE 0%, #004a80 70%);
+  color:#fff;
+  padding:22px 16px 34px;
+  border-radius:0 0 22px 22px;
+  text-align:center;
+  font-size:18px;
+  font-weight:600;
+  box-shadow:0 6px 14px rgba(0,0,0,.25);
+  position:relative;
+  margin-bottom:22px;
+}
+
+.header-card::after{
+  content:"";
+  position:absolute;
+  bottom:-8px;
+  left:0;
+  width:100%;
+  height:10px;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 8px,
+    rgba(255,255,255,.6) 8px,
+    rgba(255,255,255,.6) 10px
+  );
+}
+
 /* ===== CARD ===== */
 .card{
   background:#fff;
   padding:16px;
-  border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
   margin-bottom:16px;
   width:100%;
-  overflow:hidden; /* 🔥 PENTING */
-}
-
-/* ===== HEADER ===== */
-.header{
-  background: linear-gradient(to top, #0066AE 0%, #0A4F8A 60%, #FFD700 100%);
-  color:#fff;
-  text-align:center;
-  font-size:18px;
-  font-weight:600;
+  overflow:hidden;
 }
 
 /* ===== FORM ===== */
@@ -57,10 +78,11 @@ body{
 }
 
 .form-grid button{
-  grid-column:1 / -1; /* 🔥 tombol full lebar */
+  grid-column:1 / -1;
   background:#0066AE;
   color:#fff;
   border:none;
+  font-weight:600;
   cursor:pointer;
 }
 
@@ -77,56 +99,65 @@ body{
   padding:8px;
   border-radius:8px;
   border:1px solid #ccc;
+  font-size:13px;
 }
 
 /* ===== TABLE ===== */
 .table-wrapper{
   width:100%;
-  overflow-x:auto; /* 🔥 table tetap di dalam card */
+  overflow-x:auto;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  
 }
 
-th,td{
-  padding:8px;
-  border-bottom:1px solid #ddd;
-  font-size:10px;
+th, td{
+  padding:6px 6px;
+  font-size:12px;
+  white-space:nowrap;
   text-align:center;
 }
 
 th{
   background:#0066AE;
   color:#fff;
+  font-weight:600;
 }
+
+td{
+  line-height:1.2;
+}
+
+td:nth-child(1){ width:36px; }
+td:nth-child(2){ width:80px; }
+td:nth-child(5){ width:60px; }
 </style>
 </head>
 
 <body>
 
 <!-- HEADER -->
-<div class="card header">
+<div class="header-card">
   DATA SETORAN
 </div>
 
-<!-- FORM -->
+<!-- FORM SETORAN -->
 <div class="card">
   <form id="setoranForm">
     <div class="form-grid">
       <input type="date" id="tanggal" required>
       <input type="text" id="armada" placeholder="Armada" required>
-      <input type="text" id="nama" placeholder="Nama" required>
-      <input type="number" id="jumlah" placeholder="Jumlah" required>
+      <input type="text" id="nama" placeholder="Nama Petugas" required>
+      <input type="number" id="jumlah" placeholder="Jumlah Penumpang" required>
       <input type="number" id="nominal" placeholder="Nominal (Rp)" required>
-      <button type="submit">SIMPAN</button>
+      <button type="submit">SIMPAN SETORAN</button>
     </div>
   </form>
 </div>
 
-<!-- DATA -->
+<!-- DATA SETORAN -->
 <div class="card">
   <div class="filter">
     <input type="date" id="filterTanggal">
@@ -141,8 +172,8 @@ th{
           <th>Tanggal</th>
           <th>Armada</th>
           <th>Nama</th>
-          <th>Jml</th>
-          <th>Rp</th>
+          <th>Jumlah</th>
+          <th>Nominal</th>
         </tr>
       </thead>
       <tbody id="dataSetoran"></tbody>
@@ -215,4 +246,4 @@ loadData();
 </script>
 
 </body>
-</html>
+  </html>
