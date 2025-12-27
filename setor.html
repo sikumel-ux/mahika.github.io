@@ -3,156 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Setoran Armada - Mahika Trans</title>
+<title>Setoran Mahika Trans</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{margin:0;background:#f4f6f8;padding:16px}
-
-/* ===== HEADER CARD ===== */
-.header-card{
-  background:linear-gradient(135deg,#0066AE,#00508f);
-  padding:16px;
-  border-radius:18px;
-  box-shadow:0 10px 28px rgba(0,0,0,.18);
-  margin-bottom:20px;
-  position:relative;
-  overflow:hidden;
-  max-width:600px;
-  margin:auto;
+body{
+  font-family:Poppins,sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:20px;
 }
-.header-card::after{
-  content:"";
-  position:absolute;
-  width:140px;height:140px;
-  background:#FFD700;
-  border-radius:50%;
-  top:-50px;right:-50px;
-  opacity:.25;
-}
-.header-inner{display:flex;align-items:center;gap:14px;z-index:2;position:relative}
-.header-logo{width:50px;background:#fff;padding:6px;border-radius:12px}
-.header-text h1{margin:0;font-size:18px;color:#fff}
-.header-text p{margin:0;font-size:12px;color:#ffeb99}
 
-/* ===== CARD ===== */
 .card{
   background:#fff;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 6px 20px rgba(0,0,0,.08);
-  margin:20px auto;
-  max-width:600px;
-  overflow:hidden;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 15px rgba(0,0,0,.1);
+  margin-bottom:20px;
 }
 
-/* ===== FORM ===== */
-.form-wrapper{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:480px){
-  .form-wrapper{grid-template-columns:1fr 1fr}
-}
-.form-group{display:flex;flex-direction:column}
-label{font-size:13px;margin-bottom:6px;font-weight:600}
-input{
-  padding:10px;border:1px solid #ccc;border-radius:8px;font-size:14px
-}
-button{
-  grid-column:1/-1;
-  padding:12px;
-  border:none;
+.header{
+  background:linear-gradient(135deg,#0066AE,#FFD700);
+  color:#fff;
+  padding:15px;
   border-radius:12px;
+  text-align:center;
+  font-weight:600;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+input,button{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-family:Poppins;
+}
+
+button{
   background:#0066AE;
   color:#fff;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer
-}
-button:hover{background:#004f8a}
-
-/* ===== FILTER ===== */
-.filter-wrapper{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
-@media(min-width:480px){
-  .filter-wrapper{grid-template-columns:1fr 1fr}
+  border:none;
+  cursor:pointer;
 }
 
-/* ===== TABLE ===== */
-.table-wrapper{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
-thead{background:#0066AE;color:#fff}
-th,td{padding:8px;border-bottom:1px solid #ddd;text-align:center}
-tbody tr:hover{background:#f1f7ff}
+.filter{
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:8px;
+  border-bottom:1px solid #ddd;
+  font-size:13px;
+  text-align:center;
+}
+
+th{
+  background:#0066AE;
+  color:#fff;
+}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header-card">
-  <div class="header-inner">
-    <img src="logo.png" class="header-logo">
-    <div class="header-text">
-      <h1>Setoran Armada</h1>
-      <p>Input & Rekap Setoran Harian</p>
-    </div>
+<div class="card header">
+  SETORAN ARMADA
+</div>
+
+<div class="card">
+<form id="setoranForm">
+  <div class="form-grid">
+    <input type="date" id="tanggal" required>
+    <input type="text" id="armada" placeholder="Armada" required>
+    <input type="text" id="nama" placeholder="Nama" required>
+    <input type="number" id="jumlah" placeholder="Jumlah Penumpang" required>
+    <input type="number" id="nominal" placeholder="Nominal (Rp)" required>
+    <button type="submit">SIMPAN</button>
   </div>
+</form>
 </div>
 
-<!-- FORM -->
 <div class="card">
-  <form id="setoranForm" class="form-wrapper">
-    <div class="form-group">
-      <label>Tanggal</label>
-      <input type="date" id="tanggal" required>
-    </div>
-
-    <div class="form-group">
-      <label>Armada</label>
-      <input type="text" id="armada" required>
-    </div>
-
-    <div class="form-group">
-      <label>Nama</label>
-      <input type="text" id="nama" required>
-    </div>
-
-    <div class="form-group">
-      <label>Jumlah Penumpang</label>
-      <input type="number" id="jumlah" required>
-    </div>
-
-    <div class="form-group">
-      <label>Nominal (Rp)</label>
-      <input type="number" id="nominal" required>
-    </div>
-
-    <button type="submit">Simpan Setoran</button>
-  </form>
-</div>
-
-<!-- DATA -->
-<div class="card">
-  <div class="filter-wrapper">
+  <div class="filter">
     <input type="date" id="filterTanggal">
     <input type="text" id="filterArmada" placeholder="Filter Armada">
   </div>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Tanggal</th>
-          <th>Armada</th>
-          <th>Nama</th>
-          <th>Penumpang</th>
-          <th>Nominal</th>
-        </tr>
-      </thead>
-      <tbody id="dataSetoran"></tbody>
-    </table>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Armada</th>
+        <th>Nama</th>
+        <th>Jumlah</th>
+        <th>Nominal</th>
+      </tr>
+    </thead>
+    <tbody id="dataSetoran"></tbody>
+  </table>
 </div>
 
 <script>
@@ -160,7 +122,16 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF
 
 let data = [];
 
-document.getElementById("setoranForm").addEventListener("submit",function(e){
+function loadData(){
+  fetch(API_URL + "?action=getSetoran")
+    .then(res => res.json())
+    .then(res => {
+      data = res;
+      render();
+    });
+}
+
+document.getElementById("setoranForm").addEventListener("submit", e=>{
   e.preventDefault();
 
   const payload = {
@@ -174,11 +145,10 @@ document.getElementById("setoranForm").addEventListener("submit",function(e){
   fetch(API_URL + "?action=setoran",{
     method:"POST",
     body:JSON.stringify(payload)
+  }).then(()=>{
+    loadData();
+    e.target.reset();
   });
-
-  data.push(payload);
-  this.reset();
-  render();
 });
 
 function render(){
@@ -207,6 +177,8 @@ function render(){
 
 filterTanggal.onchange = render;
 filterArmada.onkeyup = render;
+
+loadData();
 </script>
 
 </body>
