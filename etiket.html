@@ -95,11 +95,16 @@ fetch(API_URL + "?last=1")
     document.getElementById("tgl").innerText = formatTanggal(data.tanggal);
 
     // JAM AMAN (TIDAK 1899)
-    document.getElementById("jam").innerText =
+ /*   document.getElementById("jam").innerText =
         typeof data.jam === "string"
         ? data.jam
         : new Date(data.jam).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+*/
 
+    
+    /* JAM FIX TOTAL (STRING ONLY) */
+    document.getElementById("jam").innerText = data.jam || "-";
+    
     document.getElementById("harga").innerText =
         Number(data.harga).toLocaleString("id-ID");
 
