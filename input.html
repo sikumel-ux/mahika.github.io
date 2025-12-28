@@ -5,61 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Input Etiket | Mahika Trans</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-body{
-  font-family:Poppins,sans-serif;
-  background:linear-gradient(to bottom,#0066AE,#1b9aaa);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  margin:0;
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.form-container{
-  background:#fff;
-  padding:24px;
-  border-radius:16px;
-  width:100%;
-  max-width:420px;
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
+body {
+    background: linear-gradient(135deg, #0f4c81, #1b9aaa);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
-h2{
-  text-align:center;
-  color:#0066AE;
-  margin-bottom:18px;
+.form-container {
+    background: #fff;
+    width: 100%;
+    max-width: 420px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.2);
 }
 
-.input-group{
-  margin-bottom:12px;
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0f4c81;
 }
 
-label{
-  font-size:13px;
-  display:block;
-  margin-bottom:4px;
+.input-group {
+    margin-bottom: 14px;
 }
 
-input{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  font-family:Poppins;
+.input-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #333;
 }
 
-button{
-  width:100%;
-  padding:12px;
-  background:linear-gradient(to bottom,#0066AE,#004a80);
-  border:none;
-  color:#fff;
-  font-weight:600;
-  border-radius:10px;
-  cursor:pointer;
+.input-group input {
+    width: 100%;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #1b9aaa;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #1b9aaa, #0f4c81);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: .9;
 }
 </style>
 </head>
@@ -67,83 +81,81 @@ button{
 <body>
 
 <div class="form-container">
-<h2>Booking Tiket</h2>
+    <h2>Booking Tiket</h2>
 
-<form id="bookingForm">
+    <form id="bookingForm">
+        <div class="input-group">
+            <label>Nama</label>
+            <input type="text" id="nama" required>
+        </div>
 
-  <div class="input-group">
-    <label>Tanggal</label>
-    <!-- STRING yyyy-mm-dd -->
-    <input type="date" id="tanggal" required>
-  </div>
+        <div class="input-group">
+            <label>No. HP</label>
+            <input type="text" id="no_hp" required>
+        </div>
 
-  <div class="input-group">
-    <label>Nama</label>
-    <input type="text" id="nama" required>
-  </div>
+        <div class="input-group">
+            <label>Armada</label>
+            <input type="text" id="armada" required>
+        </div>
 
-  <div class="input-group">
-    <label>No HP</label>
-    <!-- TEXT supaya 0 depan aman -->
-    <input type="text" id="no_hp" inputmode="numeric" required>
-  </div>
+        <div class="input-group">
+            <label>Tujuan</label>
+            <input type="text" id="tujuan" required>
+        </div>
 
-  <div class="input-group">
-    <label>Armada</label>
-    <input type="text" id="armada" required>
-  </div>
+        <div class="input-group">
+            <label>No. Kursi</label>
+            <input type="text" id="no_kursi" required>
+        </div>
 
-  <div class="input-group">
-    <label>Jam</label>
-    <!-- 🔥 JANGAN TIME, HARUS TEXT -->
-    <input type="text" id="jam" placeholder="08:30" required>
-  </div>
+        <div class="input-group">
+            <label>Tanggal Keberangkatan</label>
+            <input type="date" id="keberangkatan" required>
+        </div>
 
-  <div class="input-group">
-    <label>Tujuan</label>
-    <input type="text" id="tujuan" required>
-  </div>
+        <div class="input-group">
+            <label>Jam Keberangkatan</label>
+            <input type="text" id="jam" placeholder="08:30 WIB" required>
+        </div>
 
-  <div class="input-group">
-    <label>No Kursi</label>
-    <!-- bebas: 11 / 11-12 / A1 -->
-    <input type="text" id="no_kursi" required>
-  </div>
+        <div class="input-group">
+            <label>Harga (Rp)</label>
+            <input type="number" id="harga" required>
+        </div>
 
-  <div class="input-group">
-    <label>Harga</label>
-    <input type="number" id="harga" required>
-  </div>
-
-  <button type="submit">Simpan & Cetak Etiket</button>
-</form>
+        <button type="submit">Booking</button>
+    </form>
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+document.getElementById("bookingForm").addEventListener("submit", function(e){
+    e.preventDefault();
 
-document.getElementById("bookingForm").addEventListener("submit", async e=>{
-  e.preventDefault();
+    const kodeBooking = "MHK" + Date.now().toString().slice(-6);
 
-  /* 🔥 SEMUA STRING, TIDAK ADA Date() */
-  const data = {
-    tanggal: tanggal.value,     // yyyy-mm-dd STRING
-    nama: nama.value.trim(),
-    no_hp: no_hp.value.trim(),  // 0 depan aman
-    armada: armada.value.trim(),
-    jam: jam.value.trim(),      // HH:mm STRING
-    tujuan: tujuan.value.trim(),
-    no_kursi: no_kursi.value.trim(),
-    harga: harga.value
-  };
+    const data = {
+        kode_booking: kodeBooking,
+        nama: nama.value.trim(),
+        no_hp: no_hp.value.trim(),
+        armada: armada.value.trim(),
+        tujuan: tujuan.value.trim(),
+        no_kursi: no_kursi.value.trim(),
+        keberangkatan: keberangkatan.value,
+        jam: jam.value,
+        harga: harga.value
+    };
 
-  await fetch(API_URL,{
-    method:"POST",
-    body:JSON.stringify(data)
-  });
+    // Simpan tiket individual (untuk etiket.html)
+    localStorage.setItem("etiket_" + kodeBooking, JSON.stringify(data));
 
-  // langsung ke etiket
-  window.location.href = "etiket.html";
+    // Simpan ke manifest
+    let semuaTiket = JSON.parse(localStorage.getItem("tiket_semua")) || [];
+    semuaTiket.push(data);
+    localStorage.setItem("tiket_semua", JSON.stringify(semuaTiket));
+
+    // Redirect ke etiket
+    window.location.href = "etiket.html?kode=" + kodeBooking;
 });
 </script>
 
