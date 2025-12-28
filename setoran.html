@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setoran Mahika Trans</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box; font-family:'Poppins',sans-serif;}
+body{margin:0; padding:16px; background:#f4f6f8;}
+h4{margin-bottom:16px; text-align:center; color:#0066AE;}
+
+/* CARD */
+.card{
+  background:#fff; border-radius:14px; padding:18px;
+  box-shadow:0 6px 20px rgba(0,0,0,.08); margin-bottom:20px;
+  max-width:700px; margin:auto; overflow:hidden;
+}
+
+/* FORM */
+.form-wrapper{
+  display:grid; grid-template-columns:1fr; gap:14px;
+}
+@media(min-width:480px){
+  .form-wrapper{grid-template-columns:1fr 1fr;}
+}
+.form-group{display:flex; flex-direction:column;}
+label{font-size:12px; margin-bottom:6px; font-weight:600;}
+input{width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; font-size:12px;}
+button{
+  grid-column:1/-1; padding:12px; border:none;
+  border-radius:10px; background:#0066AE; color:#fff;
+  font-size:14px; font-weight:600; cursor:pointer;
+}
+button:hover{background:#004f8a;}
+
+/* FILTER */
+.filter-wrapper{
+  display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:12px;
+}
+@media(min-width:480px){ .filter-wrapper{grid-template-columns:1fr 1fr;} }
+
+/* TABEL */
+.table-wrapper{overflow-x:auto;}
+table{width:100%; border-collapse:collapse; font-size:12px; min-width:520px;}
+thead{background:#0066AE; color:#fff;}
+th,td{padding:8px; border-bottom:1px solid #ddd; text-align:center;}
+tbody tr:hover{background:#f1f7ff;}
+</style>
+</head>
+
+<body>
+
+<h4>Laporan Setoran</h4>
+
+<!-- FORM SETORAN -->
+<div class="card">
+  <form id="setoranForm" class="form-wrapper">
+    <div class="form-group">
+      <label>Tanggal</label>
+      <input type="date" id="tanggal" required>
+    </div>
+    <div class="form-group">
+      <label>Armada</label>
+      <input type="text" id="armada" placeholder="Putra Remaja" required>
+    </div>
+    <div class="form-group">
+      <label>Nama</label>
+      <input type="text" id="nama" placeholder="Nama Penumpang" required>
+    </div>
+    <div class="form-group">
+      <label>Jumlah</label>
+      <input type="number" id="jumlah" required>
+    </div>
+    <div class="form-group">
+      <label>Nominal (Rp)</label>
+      <input type="number" id="nominal" required>
+    </div>
+    <button type="submit">Simpan</button>
+  </form>
+</div>
+
+<!-- FILTER & TABEL -->
+<div class="card">
+  <div class="filter-wrapper">
+    <input type="date" id="filterTanggal">
+    <input type="text" id="filterArmada" placeholder="Filter Armada">
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Armada</th>
+          <th>Nama</th>
+          <th>Jumlah</th>
+          <th>Nominal</th>
+        </tr>
+      </thead>
+      <tbody id="dataSetoran"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhnbzMQzTvUhPLMjZwxRbF9iCWuP1O6Oyk-Xd8Hw4PUbPGEY8Iwqdsh1Q02_sHQ10r/exec";
+
+let data = [];
+
+// Load semua setoran dari sheet
+function loadData(){
+  fetch(API_URL + "?setoran=1")
+    .then(res => res.json())
+    .then(res => {
+      data = res;
+      render();
+    })
+    .catch(err => console.error("Load error:", err));
+}
+
+// Submit form setoran
+document.getElementById("setoranForm").addEventListener("submit", e=>{
+  e.preventDefault();
+
+  const payload = {
+    type:"setoran",
+    tanggal: tanggal.value,
+    armada: armada.value,
+    nama: nama.value,
+    jumlah: jumlah.value,
+    nominal: nominal.value
+  };
+
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify(payload)
+  }).then(()=>{
+    loadData();
+    e.target.reset();
+  });
+});
+
+// Render tabel
+function render(){
+  const tbody = document.getElementById("dataSetoran");
+  tbody.innerHTML = "";
+
+  const ft = filterTanggal.value;
+  const fa = filterArmada.value.toLowerCase();
+  let no = 1;
+
+  data.filter(d=>{
+    return (!ft || d.tanggal === ft) &&
+           (!fa || d.armada.toLowerCase().includes(fa));
+  }).forEach(d=>{
+    tbody.innerHTML += `
+      <tr>
+        <td>${no++}</td>
+        <td>${new Date(d.tanggal).toLocaleDateString("id-ID")}</td>
+        <td>${d.armada}</td>
+        <td>${d.nama}</td>
+        <td>${d.jumlah}</td>
+        <td>${Number(d.nominal).toLocaleString("id-ID")}</td>
+      </tr>`;
+  });
+}
+
+filterTanggal.onchange = render;
+filterArmada.onkeyup = render;
+
+// Load awal
+loadData();
+</script>
+
+</body>
+</html>
