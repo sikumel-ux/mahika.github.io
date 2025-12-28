@@ -1,47 +1,71 @@
-/* =========================
-   ETIKET.GS
-========================= */
-const SPREADSHEET_ID = "1tZLwFMTsn_GjYA3UrTUF1c0mYCkHmMwknEsMVquac-E";
-const SHEET_NAME = "db_mahika";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etiket Mahika Trans</title>
+<link rel="stylesheet" href="eti.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
 
-function doGet(e){
-  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
-  const lastRow = sheet.getLastRow();
-  if(lastRow<2) return jsonOutput({});
+<div class="etiket-container">
+    <div class="etiket-header">
+        <img src="logo.png" alt="Mahika Trans" class="logo">
+        <p class="kode-booking" id="kodeBooking">-</p>
+    </div>
 
-  const row = sheet.getRange(lastRow,1,1,8).getValues()[0];
+    <div class="info-grid">
+        <div class="kolom">
+            <p>Nama: <span id="nama"></span></p>
+            <p>No HP: <span id="no_hp"></span></p>
+            <p>Armada: <span id="armada"></span></p>
+            <p>Tujuan: <span id="tujuan"></span></p>
+        </div>
+        <div class="kolom">
+            <p>No Kursi: <span id="no_kursi"></span></p>
+            <p>Tanggal: <span id="tgl"></span></p>
+            <p>Jam: <span id="jam"></span> WIB</p>
+            <p>Harga: <span id="harga"></span></p>
+        </div>
+    </div>
 
-  return jsonOutput({
-    tanggal: Utilities.formatDate(row[0],"Asia/Jakarta","yyyy-MM-dd"),
-    nama: row[1],
-    no_hp: row[2].toString(),
-    armada: row[3],
-    jam: row[4],
-    tujuan: row[5],
-    no_kursi: row[6],
-    harga: row[7]
-  });
+    <div class="barcode">
+        <img id="barcodeImg" alt="Barcode">
+    </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+
+function formatTanggal(t){
+    if(!t) return "";
+    const d = new Date(t);
+    const dd = String(d.getDate()).padStart(2,"0");
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const yyyy = d.getFullYear();
+    return `${dd}-${mm}-${yyyy}`;
 }
 
-function doPost(e){
-  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
-  const data = JSON.parse(e.postData.contents);
+fetch(API_URL)
+.then(res => res.json())
+.then(data => {
+    document.getElementById("kodeBooking").innerText = "MT-" + Date.now().toString().slice(-6);
+    document.getElementById("nama").innerText = data.nama;
+    document.getElementById("no_hp").innerText = data.no_hp;
+    document.getElementById("armada").innerText = data.armada;
+    document.getElementById("tujuan").innerText = data.tujuan;
+    document.getElementById("no_kursi").innerText = data.no_kursi;
+    document.getElementById("tgl").innerText = formatTanggal(data.tanggal);
+    document.getElementById("jam").innerText = data.jam; // plain text, aman
+    document.getElementById("harga").innerText = Number(data.harga).toLocaleString("id-ID");
+    document.getElementById("barcodeImg").src = "https://barcode.tec-it.com/barcode.ashx?data=" + encodeURIComponent(data.no_kursi) + "&code=Code128";
+})
+.catch(err=>{
+    console.error(err);
+    document.body.innerHTML = "<h3>Gagal memuat etiket</h3>";
+});
+</script>
 
-  sheet.appendRow([
-    new Date(data.tanggal),
-    data.nama,
-    data.no_hp.toString(),
-    data.armada,
-    data.jam,
-    data.tujuan,
-    data.no_kursi,
-    data.harga
-  ]);
-
-  return jsonOutput({status:"success"});
-}
-
-function jsonOutput(obj){
-  return ContentService.createTextOutput(JSON.stringify(obj))
-                       .setMimeType(ContentService.MimeType.JSON);
-}
+</body>
+</html>
